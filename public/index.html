@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystallization Wizard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="landing">
+    <header class="landing-header">
+      <h1>Crystallization Wizard</h1>
+      <p class="tagline">Turn your thoughts into structured clarity through conversation.</p>
+    </header>
+
+    <div class="mode-grid" id="mode-grid">
+      <!-- Modes loaded dynamically -->
+    </div>
+
+    <footer class="landing-footer">
+      <p>Your data stays in your browser. Nothing is stored on our servers.</p>
+    </footer>
+  </div>
+
+  <script>
+    const modes = [
+      { id: 'telos', file: '/modes/telos.json' },
+      { id: 'bucket-list', file: '/modes/bucket-list.json' }
+    ];
+
+    async function loadModes() {
+      const grid = document.getElementById('mode-grid');
+
+      for (const mode of modes) {
+        try {
+          const res = await fetch(mode.file);
+          const config = await res.json();
+
+          const card = document.createElement('a');
+          card.href = `/chat.html?mode=${config.id}`;
+          card.className = 'mode-card';
+
+          // Check for saved progress
+          const savedKey = `cw3_${config.id}_state`;
+          const hasSaved = localStorage.getItem(savedKey);
+
+          card.innerHTML = `
+            <h2>${config.name}</h2>
+            <p>${config.description}</p>
+            <div class="mode-meta">
+              <span>${config.sections.length} sections</span>
+              ${hasSaved ? '<span class="badge">In progress</span>' : ''}
+            </div>
+          `;
+
+          grid.appendChild(card);
+        } catch (e) {
+          console.warn('Failed to load mode:', mode.id, e);
+        }
+      }
+    }
+
+    loadModes();
+  </script>
+</body>
+</html>

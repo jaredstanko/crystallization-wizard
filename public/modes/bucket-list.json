@@ -1,0 +1,97 @@
+{
+  "id": "bucket-list",
+  "name": "Bucket List",
+  "description": "Discover and organize your life goals through conversation.",
+  "output_filename": "bucket_list.md",
+  "opening_prompt": "Let's build your bucket list! I'll help you explore different areas of life to uncover goals and dreams you might not have thought of.\n\nLet's start big — if time and money were no obstacle, what's the first thing you'd want to do?",
+  "system_prompt": "You are an enthusiastic life coach helping someone discover their bucket list through conversation. Draw out their dreams, passions, and hidden desires.\n\nRULES:\n1. Be excited and encouraging — this is about dreaming big.\n2. Ask ONE question at a time.\n3. Help them be specific — \"travel\" becomes \"hike the Camino de Santiago\".\n4. Suggest categories they haven't explored.\n5. Mix practical goals with wild dreams.\n\nRESPONSE FORMAT — you MUST use this exact format:\n[CHAT]\nYour conversational response. Acknowledge, encourage, then ask next question.\n[/CHAT]\n[EXTRACT]\n{\"section_id\": [\"extracted item 1\", \"extracted item 2\"]}\n[/EXTRACT]\n\nExtract specific, actionable bucket list items into the appropriate category.",
+  "completeness": {
+    "minimum_sections": 5,
+    "depth_threshold_entries": 3,
+    "depth_threshold_words": 30
+  },
+  "sections": [
+    {
+      "id": "travel",
+      "title": "Travel & Adventure",
+      "description": "Places to visit, adventures to have",
+      "output_header": "## TRAVEL & ADVENTURE",
+      "prompts": [
+        "What places in the world are calling to you?",
+        "What's an adventure you've always wanted to go on?"
+      ]
+    },
+    {
+      "id": "career",
+      "title": "Career & Achievement",
+      "description": "Professional milestones and accomplishments",
+      "output_header": "## CAREER & ACHIEVEMENT",
+      "prompts": [
+        "What would you love to accomplish professionally?",
+        "Is there a skill you've always wanted to master?"
+      ]
+    },
+    {
+      "id": "creative",
+      "title": "Creative & Learning",
+      "description": "Things to create, learn, or master",
+      "output_header": "## CREATIVE & LEARNING",
+      "prompts": [
+        "What have you always wanted to create?",
+        "What would you learn if you had unlimited time?"
+      ]
+    },
+    {
+      "id": "relationships",
+      "title": "Relationships & People",
+      "description": "People to meet, relationships to deepen",
+      "output_header": "## RELATIONSHIPS & PEOPLE",
+      "prompts": [
+        "Who would you love to meet?",
+        "What experience would you love to share with someone important to you?"
+      ]
+    },
+    {
+      "id": "experiences",
+      "title": "Experiences & Fun",
+      "description": "Unique experiences and pure fun",
+      "output_header": "## EXPERIENCES & FUN",
+      "prompts": [
+        "What's something wild or unusual you'd love to try?",
+        "What experience would make for a great story?"
+      ]
+    },
+    {
+      "id": "giving",
+      "title": "Giving & Impact",
+      "description": "Ways to give back and make a difference",
+      "output_header": "## GIVING & IMPACT",
+      "prompts": [
+        "How would you like to make a difference in the world?",
+        "What cause would you dedicate time to if you could?"
+      ]
+    },
+    {
+      "id": "personal",
+      "title": "Personal Growth",
+      "description": "Inner goals, habits, qualities to develop",
+      "output_header": "## PERSONAL GROWTH",
+      "prompts": [
+        "What kind of person do you want to become?",
+        "What habit or quality would change your life?"
+      ]
+    },
+    {
+      "id": "wild",
+      "title": "Wild Card",
+      "description": "Anything that doesn't fit elsewhere",
+      "output_header": "## WILD CARD",
+      "optional": true,
+      "prompts": [
+        "Anything else on your dream list that doesn't fit a category?",
+        "What's the most outrageous thing you'd do if no one was watching?"
+      ]
+    }
+  ],
+  "preamble": "# MY BUCKET LIST\n\nLife goals and dreams, organized by category.\n"
+}

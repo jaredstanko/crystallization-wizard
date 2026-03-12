@@ -1,0 +1,199 @@
+{
+  "id": "telos",
+  "name": "Telos — Personal Context",
+  "description": "Build your personal life context file through conversation.",
+  "credit": {
+    "name": "Daniel Miessler",
+    "url": "https://github.com/danielmiessler/Telos"
+  },
+  "output_filename": "personal_telos.md",
+  "opening_prompt": "Let's build your Telos file. I'll ask you questions about your life, goals, and beliefs, and organize your thoughts into a structured document.\n\nLet's start with your background — where did you grow up, and what experiences shaped who you are today?",
+  "system_prompt": "You are a thoughtful interviewer helping someone articulate their personal context using the Telos framework. Your job is to extract structured content from their responses and ask follow-up questions.\n\nRULES:\n1. Be warm, curious, and encouraging. This is self-reflection, not an interrogation.\n2. Ask ONE question at a time.\n3. When they ramble, find the gold in it — extract the meaningful insights.\n4. If they say \"I don't know\" or \"skip\", move on gracefully.\n5. Naturally steer toward uncovered sections without being mechanical.\n\nRESPONSE FORMAT — you MUST use this exact format:\n[CHAT]\nYour conversational response here. Acknowledge what they said, then ask your next question.\n[/CHAT]\n[EXTRACT]\n{\"section_id\": [\"extracted item 1\", \"extracted item 2\"]}\n[/EXTRACT]\n\nThe EXTRACT block maps extracted content to section IDs. You can extract to multiple sections from a single response. Only include sections where you found relevant content. Each item should be a concise, meaningful statement (not raw quotes).",
+  "completeness": {
+    "minimum_sections": 12,
+    "depth_threshold_entries": 2,
+    "depth_threshold_words": 50
+  },
+  "sections": [
+    {
+      "id": "history",
+      "title": "History",
+      "description": "Background, formative experiences, key life events",
+      "output_header": "## HISTORY",
+      "prompts": [
+        "Where did you grow up? What was that like?",
+        "What experience most shaped who you are today?",
+        "Was there a turning point that changed your direction?"
+      ]
+    },
+    {
+      "id": "problems",
+      "title": "Problems",
+      "description": "Fundamental problems in the world you want to solve",
+      "output_header": "## PROBLEMS",
+      "prompts": [
+        "What problems in the world frustrate you most?",
+        "If you could fix one thing about how the world works, what would it be?"
+      ]
+    },
+    {
+      "id": "mission",
+      "title": "Mission",
+      "description": "What you're going to do about the problems you see",
+      "output_header": "## MISSION",
+      "depends_on": ["problems"],
+      "prompts": [
+        "Given the problems you've described, what do you feel called to do about them?",
+        "How do you see yourself making a difference?"
+      ]
+    },
+    {
+      "id": "narratives",
+      "title": "Narratives",
+      "description": "Stories you tell yourself about who you are",
+      "output_header": "## NARRATIVES",
+      "prompts": [
+        "What's a story you often tell about yourself?",
+        "How do you describe yourself to new people?"
+      ]
+    },
+    {
+      "id": "goals",
+      "title": "Goals",
+      "description": "Concrete goals — short, medium, and long-term",
+      "output_header": "## GOALS",
+      "depends_on": ["mission"],
+      "prompts": [
+        "What are you working toward right now?",
+        "Where do you want to be in 5 years?",
+        "What's a goal you've been putting off?"
+      ]
+    },
+    {
+      "id": "challenges",
+      "title": "Challenges",
+      "description": "Current obstacles and difficulties",
+      "output_header": "## CHALLENGES",
+      "prompts": [
+        "What's getting in the way of your goals?",
+        "What's the hardest thing you're dealing with right now?"
+      ]
+    },
+    {
+      "id": "strategies",
+      "title": "Strategies",
+      "description": "Approaches for overcoming challenges",
+      "output_header": "## STRATEGIES",
+      "depends_on": ["challenges", "goals"],
+      "prompts": [
+        "How are you approaching these challenges?",
+        "What strategies have worked for you in the past?"
+      ]
+    },
+    {
+      "id": "projects",
+      "title": "Projects",
+      "description": "Active projects and initiatives",
+      "output_header": "## PROJECTS",
+      "prompts": [
+        "What projects are you actively working on?",
+        "What are you building or creating right now?"
+      ]
+    },
+    {
+      "id": "beliefs",
+      "title": "Beliefs",
+      "description": "Core beliefs about the world, people, and life",
+      "output_header": "## BELIEFS",
+      "prompts": [
+        "What do you believe to be true that most people would disagree with?",
+        "What principles guide your decisions?"
+      ]
+    },
+    {
+      "id": "health",
+      "title": "Health",
+      "description": "Physical and mental health context",
+      "output_header": "## HEALTH",
+      "optional": true,
+      "prompts": [
+        "How's your health situation? Anything relevant to how you live your life?",
+        "What does wellness look like for you?"
+      ]
+    },
+    {
+      "id": "influences",
+      "title": "Influences",
+      "description": "Books, people, ideas that shaped your thinking",
+      "output_header": "## INFLUENCES",
+      "prompts": [
+        "Who or what has influenced your thinking the most?",
+        "What book or idea changed how you see the world?"
+      ]
+    },
+    {
+      "id": "wisdom",
+      "title": "Wisdom",
+      "description": "Hard-won lessons and insights",
+      "output_header": "## WISDOM",
+      "prompts": [
+        "What's a lesson you learned the hard way?",
+        "What advice would you give your younger self?"
+      ]
+    },
+    {
+      "id": "relationships",
+      "title": "Relationships",
+      "description": "Key relationships and their importance",
+      "output_header": "## RELATIONSHIPS",
+      "optional": true,
+      "prompts": [
+        "Who are the most important people in your life?",
+        "What role does community play for you?"
+      ]
+    },
+    {
+      "id": "fears",
+      "title": "Fears",
+      "description": "What you're afraid of — personally and for the world",
+      "output_header": "## FEARS",
+      "optional": true,
+      "prompts": [
+        "What keeps you up at night?",
+        "What are you most afraid of?"
+      ]
+    },
+    {
+      "id": "aspirations",
+      "title": "Aspirations",
+      "description": "Who you want to become",
+      "output_header": "## ASPIRATIONS",
+      "prompts": [
+        "Who do you want to become?",
+        "What kind of person do you aspire to be?"
+      ]
+    },
+    {
+      "id": "frameworks",
+      "title": "Frameworks",
+      "description": "Mental models and thinking tools you use",
+      "output_header": "## FRAMEWORKS",
+      "prompts": [
+        "What mental models or frameworks help you make decisions?",
+        "How do you think through hard problems?"
+      ]
+    },
+    {
+      "id": "journal",
+      "title": "Journal",
+      "description": "Current state of mind, recent reflections",
+      "output_header": "## JOURNAL",
+      "optional": true,
+      "prompts": [
+        "What's on your mind lately?",
+        "What have you been reflecting on recently?"
+      ]
+    }
+  ],
+  "preamble": "# TELOS\n\n## DOCUMENT PURPOSE\n\nThis document captures my personal context using the TELOS framework.\nThe conceptual path is Problems -> Mission -> (Narratives) -> Goals -> Challenges -> Strategies -> Projects -> Journal.\n"
+}

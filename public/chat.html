@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystallization Wizard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="chat-page">
+  <header class="chat-header">
+    <a href="/" class="back-link">&larr;</a>
+    <h1 id="mode-name">Loading...</h1>
+    <button id="toggle-preview" class="btn-ghost">Preview</button>
+  </header>
+
+  <div class="split-pane">
+    <!-- Chat pane -->
+    <div class="chat-pane">
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-input-area">
+        <textarea id="chat-input" placeholder="Type your response..." rows="1"></textarea>
+        <button id="send-btn" class="btn-send" aria-label="Send">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Preview pane -->
+    <div class="preview-pane" id="preview-pane">
+      <div class="preview-header">
+        <h2>Crystallized Output</h2>
+      </div>
+      <div class="preview-content" id="preview-content">
+        <!-- Rendered by preview.js -->
+      </div>
+      <div class="preview-actions">
+        <button id="download-btn" class="btn-action">Download</button>
+        <button id="copy-btn" class="btn-action">Copy</button>
+        <button id="restart-btn" class="btn-action btn-danger">Start Over</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
