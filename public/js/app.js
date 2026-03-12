@@ -60,6 +60,13 @@ async function init() {
     fsm.restore(savedFsm);
     // Re-render saved messages
     messages.forEach(m => chat.addMessage(m.role, m.text));
+    // Welcome back message for returning users
+    const populated = crystallizer.getPopulatedSections();
+    const empty = crystallizer.getEmptySections();
+    if (populated.length > 0) {
+      const resumeMsg = `Welcome back! You've explored ${populated.length} of ${modeConfig.sections.length} areas so far. Pick up where you left off, or take the conversation in a new direction.`;
+      chat.addMessage('system', resumeMsg);
+    }
   } else {
     // Fresh conversation — send opening prompt
     const openingText = modeConfig.opening_prompt;
@@ -67,6 +74,13 @@ async function init() {
     chat.addMessage('ai', openingText);
     save();
   }
+
+  // Wire preview edit callback
+  preview.onEdit = (sectionId, index, newText) => {
+    crystallizer.editItem(sectionId, index, newText);
+    updatePreview();
+    save();
+  };
 
   // Render preview
   updatePreview();

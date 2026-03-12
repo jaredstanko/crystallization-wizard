@@ -38,6 +38,13 @@ export class Crystallizer {
     });
   }
 
+  editItem(sectionId, index, newText) {
+    if (!this.state[sectionId]) return false;
+    if (index < 0 || index >= this.state[sectionId].length) return false;
+    this.state[sectionId][index] = newText.trim();
+    return true;
+  }
+
   getSectionContent(sectionId) {
     return this.state[sectionId] || [];
   }

@@ -382,6 +382,32 @@ body {
   font-style: italic;
 }
 
+/* ── Editable Preview Items (v3.1) ── */
+
+.preview-item {
+  cursor: default;
+  transition: background 0.15s;
+  border-radius: 4px;
+  padding: 4px 8px !important;
+  padding-left: 12px !important;
+}
+
+.preview-item:hover {
+  background: rgba(88, 166, 255, 0.08);
+}
+
+.preview-edit-input {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: inherit;
+  padding: 4px 8px;
+  outline: none;
+}
+
 /* ── Progress Bar ── */
 
 .preview-progress {
