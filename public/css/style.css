@@ -105,6 +105,33 @@ body {
   font-size: 0.85rem;
 }
 
+.landing-footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.landing-footer a:hover {
+  text-decoration: underline;
+}
+
+.landing-footer p + p {
+  margin-top: 8px;
+}
+
+/* ── Version Badge ── */
+
+.version-badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 12px;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+}
+
 /* ── Chat Page ── */
 
 .chat-page {

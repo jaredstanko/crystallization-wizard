@@ -40,7 +40,7 @@ export async function onRequestPost(context) {
       return Response.json({ error: 'messages array is required' }, { status: 400 });
     }
 
-    const useModel = env.DEFAULT_MODEL || 'openai/gpt-4o-mini';
+    const useModel = env.DEFAULT_MODEL || 'google/gemini-2.5-flash-lite';
 
     // Build messages array with system prompt
     const apiMessages = [];
@@ -62,6 +62,7 @@ export async function onRequestPost(context) {
         messages: apiMessages,
         max_tokens: body.max_tokens || 2048,
         temperature: 0.7,
+        zdr: true,
       }),
     });
 

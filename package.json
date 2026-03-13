@@ -1,9 +1,9 @@
 {
   "name": "crystallization-wizard",
-  "version": "3.2.0",
+  "version": "3.5.0",
   "private": true,
   "scripts": {
-    "dev": "bun x wrangler pages dev public --port 8789 --binding OPENROUTER_API_KEY=dev-key DEFAULT_MODEL=openai/gpt-4o-mini RATE_LIMIT_PER_HOUR=200",
+    "dev": "bun x wrangler pages dev public --port 8789 --binding OPENROUTER_API_KEY=dev-key DEFAULT_MODEL=google/gemini-2.5-flash-lite RATE_LIMIT_PER_HOUR=200",
     "deploy": "bun x wrangler pages deploy public --project-name crystallization-wizard"
   },
   "devDependencies": {
