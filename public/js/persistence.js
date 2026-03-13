@@ -57,8 +57,29 @@ export const persistence = {
     }
   },
 
+  saveBackup(modeId, state) {
+    try {
+      localStorage.setItem(this._key(modeId, 'backup'), JSON.stringify(state));
+    } catch (e) {
+      console.warn('Failed to save backup:', e);
+    }
+  },
+
+  loadBackup(modeId) {
+    try {
+      const raw = localStorage.getItem(this._key(modeId, 'backup'));
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  },
+
+  clearBackup(modeId) {
+    localStorage.removeItem(this._key(modeId, 'backup'));
+  },
+
   clear(modeId) {
-    ['messages', 'state', 'fsm'].forEach(suffix => {
+    ['messages', 'state', 'fsm', 'backup'].forEach(suffix => {
       localStorage.removeItem(this._key(modeId, suffix));
     });
   }

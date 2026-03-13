@@ -1,4 +1,4 @@
-# Crystallization Wizard v3.1
+# Crystallization Wizard v3.2
 
 Turn your thoughts into structured clarity through conversation.
 
@@ -20,6 +20,9 @@ A conversational chatbot that helps you build structured personal context files 
 - **Cross-pollination** — a single response can populate multiple sections
 - **Multi-session resume** — pick up where you left off with a welcome-back message
 - **Completeness scoring** — coverage + depth heuristics tell you when you're done
+- **Document import** — paste or upload existing text/markdown and the AI sorts it into sections
+- **Undo import** — one-click restore if the import wasn't right
+- **Dynamic filenames** — downloads named `your_{mode}_{date}.md` for easy organization
 - **Extensible modes** — add new document types as JSON config files
 - **Privacy-first** — all data stays in your browser's localStorage
 

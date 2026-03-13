@@ -60,7 +60,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: useModel,
         messages: apiMessages,
-        max_tokens: 2048,
+        max_tokens: body.max_tokens || 2048,
         temperature: 0.7,
       }),
     });

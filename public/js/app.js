@@ -62,7 +62,6 @@ async function init() {
     messages.forEach(m => chat.addMessage(m.role, m.text));
     // Welcome back message for returning users
     const populated = crystallizer.getPopulatedSections();
-    const empty = crystallizer.getEmptySections();
     if (populated.length > 0) {
       const resumeMsg = `Welcome back! You've explored ${populated.length} of ${modeConfig.sections.length} areas so far. Pick up where you left off, or take the conversation in a new direction.`;
       chat.addMessage('system', resumeMsg);
@@ -87,6 +86,9 @@ async function init() {
 
   // Wire send handler
   chat.onSend = handleUserMessage;
+
+  // Wire import handler
+  chat.onImport = handleImport;
 
   // Wire buttons
   document.getElementById('download-btn').addEventListener('click', handleDownload);
@@ -141,7 +143,6 @@ async function handleUserMessage(text) {
     const advisory = completeness.getAdvisoryMessage(stats);
     if (advisory && stats.isMinViable && !window._advisoryShown) {
       window._advisoryShown = true;
-      // Show as a subtle system message after a delay
       setTimeout(() => {
         chat.addMessage('system', advisory);
       }, 1000);
@@ -151,6 +152,75 @@ async function handleUserMessage(text) {
   } catch (e) {
     chat.showError(`Something went wrong: ${e.message}. Try again.`);
     console.error('AI error:', e);
+  } finally {
+    chat.setEnabled(true);
+  }
+}
+
+const MAX_IMPORT_CHARS = 50000;
+
+async function handleImport(text) {
+  // Validate size
+  if (text.length > MAX_IMPORT_CHARS) {
+    chat.showError(`This document is too long (${text.length.toLocaleString()} characters). Maximum is ${MAX_IMPORT_CHARS.toLocaleString()} characters. Try pasting a portion at a time.`);
+    return;
+  }
+
+  // Save pre-merge backup
+  const backupState = crystallizer.backup();
+  persistence.saveBackup(modeConfig.id, backupState);
+
+  chat.addMessage('system', 'Analyzing your document...');
+  chat.setEnabled(false);
+  chat.showTyping();
+
+  try {
+    const { summary, extraction, unmatched } = await ai.importDocument(text, modeConfig);
+
+    // Merge extraction into crystallizer
+    if (extraction) {
+      crystallizer.merge(extraction);
+      // Mark visited sections
+      fsm.markVisitedFromExtraction(extraction);
+    }
+
+    // Show import summary
+    let summaryText = summary;
+    if (unmatched && unmatched.length > 0) {
+      summaryText += '\n\nI found a few things that didn\'t fit neatly into any section:\n' +
+        unmatched.map(item => `- ${item}`).join('\n') +
+        '\n\nWant to tell me more about these so I can place them?';
+    }
+
+    const gaps = fsm.getUnvisited();
+    if (gaps.length > 0) {
+      summaryText += `\n\n${gaps.length} sections are still empty. Would you like to review what I captured, explore the gaps, or refine any sections?`;
+    }
+
+    messages.push({ role: 'ai', text: summaryText });
+    chat.addMessage('ai', summaryText);
+
+    // Update preview
+    updatePreview();
+
+    // Show undo button
+    chat.showUndoImport(() => {
+      const backup = persistence.loadBackup(modeConfig.id);
+      if (backup) {
+        crystallizer.restoreFromBackup(backup);
+        persistence.clearBackup(modeConfig.id);
+        updatePreview();
+        save();
+        chat.addMessage('system', 'Import undone. Your previous content has been restored.');
+      }
+    });
+
+    save();
+  } catch (e) {
+    chat.showError(`Import failed: ${e.message}. Try again.`);
+    console.error('Import error:', e);
+    // Restore backup on failure
+    crystallizer.restoreFromBackup(backupState);
   } finally {
     chat.setEnabled(true);
   }
@@ -197,7 +267,10 @@ function handleDownload() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = modeConfig.output_filename;
+  // Dynamic filename: your_{slug}_{YYYY-MM-DD}.md
+  const date = new Date().toISOString().split('T')[0];
+  const slug = modeConfig.download_slug || modeConfig.id;
+  a.download = `your_${slug}_${date}.md`;
   a.click();
   URL.revokeObjectURL(url);
 }

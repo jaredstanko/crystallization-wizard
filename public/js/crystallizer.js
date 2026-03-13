@@ -38,6 +38,17 @@ export class Crystallizer {
     });
   }
 
+  backup() {
+    return JSON.parse(JSON.stringify(this.state));
+  }
+
+  restoreFromBackup(backupState) {
+    if (!backupState) return;
+    this.sections.forEach(s => {
+      this.state[s.id] = backupState[s.id] || [];
+    });
+  }
+
   editItem(sectionId, index, newText) {
     if (!this.state[sectionId]) return false;
     if (index < 0 || index >= this.state[sectionId].length) return false;
