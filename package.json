@@ -7,6 +7,6 @@
     "deploy": "bun x wrangler pages deploy public --project-name crystallization-wizard"
   },
   "devDependencies": {
-    "wrangler": "4"
+    "wrangler": "^4.73.0"
   }
 }
