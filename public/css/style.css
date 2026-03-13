@@ -51,6 +51,18 @@ body {
   margin-bottom: 48px;
 }
 
+.tagline a {
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tagline a:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
 .mode-grid {
   display: grid;
   gap: 16px;
@@ -121,6 +133,7 @@ body {
 /* ── Version Badge ── */
 
 .version-badge {
+  display: inline-block;
   font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-muted);
@@ -130,6 +143,7 @@ body {
   border-radius: 12px;
   vertical-align: middle;
   letter-spacing: 0.02em;
+  margin-bottom: 4px;
 }
 
 /* ── Chat Page ── */
