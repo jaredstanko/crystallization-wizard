@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help — Crystallization Wizard</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .help-page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .help-page h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), #a371f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .help-page .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      font-size: 1.05rem;
+    }
+    .help-page h2 {
+      font-size: 1.2rem;
+      margin-top: 32px;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+    .help-page p, .help-page li {
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .help-page ul {
+      padding-left: 20px;
+      margin: 8px 0 16px;
+    }
+    .help-page li {
+      margin-bottom: 6px;
+    }
+    .help-page a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .help-page a:hover {
+      text-decoration: underline;
+    }
+    .help-page .back-home {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .help-page .back-home:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="help-page">
+    <a href="/" class="back-home">&larr; Back to modes</a>
+
+    <h1>How It Works</h1>
+    <p class="subtitle">A quick guide to getting the most out of Crystallization Wizard.</p>
+
+    <h2>What is this?</h2>
+    <p>Crystallization Wizard helps you turn unstructured thoughts into organized documents through conversation. Pick a mode — like Telos (a personal context file) or Bucket List — and the AI will ask you questions, listen to your answers, and sort everything into the right sections automatically. You talk, it organizes.</p>
+
+    <h2>Having a conversation</h2>
+    <p>Once you pick a mode, you'll see a chat on the left and a preview sidebar on the right. The AI starts with an opening question. Just respond naturally — ramble, go off-topic, jump around. The AI will pull out the meaningful pieces and file them into the appropriate sections. You'll see the preview sidebar light up as sections get populated.</p>
+    <ul>
+      <li>You can double-click any item in the sidebar to edit it directly.</li>
+      <li>The AI will tell you when it captures something for a section you weren't directly talking about — that's cross-pollination working as intended.</li>
+      <li>There's no wrong order. Say whatever comes to mind.</li>
+    </ul>
+
+    <h2>Your data stays with you</h2>
+    <p>Everything is saved in your browser's local storage. You can close the tab, shut down your computer, and come back later — your conversation and all extracted content will be right where you left it. When you return, the AI will greet you with a summary of what you've covered so far.</p>
+    <p>Even the AI processing uses <a href="https://openrouter.ai/docs/guides/features/zdr" target="_blank" rel="noopener">zero data retention</a> — your responses are never stored or used for training by the LLM provider.</p>
+
+    <h2>Downloading and copying</h2>
+    <p>At any point, you can download your structured document as a markdown file or copy it to your clipboard using the buttons at the bottom of the preview sidebar. You're never locked in — download early and often if you like. The filename includes the mode and date so you can keep multiple versions organized.</p>
+
+    <h2>Importing existing notes</h2>
+    <p>Already have notes, a draft, or a previous download? You can import them and the AI will sort the content into the right sections for you.</p>
+    <ul>
+      <li><strong>Paste:</strong> If you paste a large block of text (over 500 characters) into the chat input, the app will detect it and ask whether you want to import it or send it as a regular message.</li>
+      <li><strong>Upload:</strong> Click the document icon next to the send button to open the import dialog. You can paste text there or upload a <code>.txt</code> or <code>.md</code> file from your computer.</li>
+    </ul>
+    <p>After importing, the AI will tell you what it found, which sections it filled, and what didn't fit. Your existing conversation content is preserved — imports add to what's already there, they don't replace it. If the import didn't go the way you wanted, hit the undo button that appears right after to roll everything back.</p>
+    <p>Once the import is done, the conversation picks up right where you are. The AI will suggest exploring gaps or refining what it captured.</p>
+
+    <h2>Starting over</h2>
+    <p>The "Start Over" button in the preview sidebar clears everything for that mode — conversation, extracted content, all of it. You'll be asked to confirm first. If you just want to try a different mode, go back to the <a href="/">home page</a> and pick another one. Each mode saves independently.</p>
+  </div>
+</body>
+</html>

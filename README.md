@@ -12,6 +12,8 @@ A conversational chatbot that helps you build structured personal context files 
 4. Double-click any item in the sidebar to edit it
 5. Download or copy your completed document
 
+See the [full help page](https://crystallization-wizard.pages.dev/help.html) for details on importing existing notes, persistence, and more.
+
 ## Features
 
 - **Conversational extraction** — AI parses freeform responses into structured data
