@@ -17,6 +17,48 @@ export const ai = {
     return this.parseResponse(data.content);
   },
 
+  async extractFromResponse(userText, aiResponse, modeConfig) {
+    const sectionList = modeConfig.sections.map(s => `${s.id}: ${s.title}`).join(', ');
+
+    const systemPrompt = `Extract structured items from the conversation below into a JSON object. The keys are section IDs and the values are arrays of concise item strings. Only include sections where content was found. If nothing to extract, return {}.
+
+Available sections: ${sectionList}
+
+Respond with ONLY valid JSON. No explanation, no markdown, no code fences.`;
+
+    const messages = [
+      { role: 'user', content: userText },
+      { role: 'assistant', content: aiResponse },
+      { role: 'user', content: 'Extract the items from our conversation as JSON.' }
+    ];
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages, system: systemPrompt, max_tokens: 512 })
+      });
+
+      if (!res.ok) return null;
+
+      const data = await res.json();
+      const raw = data.content.trim();
+
+      // Strip markdown code fences if present
+      const cleaned = raw.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '').trim();
+
+      const parsed = JSON.parse(cleaned);
+      if (typeof parsed === 'object' && !Array.isArray(parsed) && Object.keys(parsed).length > 0) {
+        console.warn('Fallback extraction call succeeded:', parsed);
+        return parsed;
+      }
+      return null;
+    } catch (e) {
+      console.warn('Fallback extraction call failed:', e);
+      return null;
+    }
+  },
+
   async importDocument(text, modeConfig) {
     const sectionList = modeConfig.sections.map(s =>
       `- ${s.id}: ${s.title} — ${s.description}`
@@ -80,28 +122,6 @@ Brief summary: how many items extracted, which sections populated, what didn't f
         extraction = JSON.parse(extractMatch[1].trim());
       } catch (e) {
         console.warn('Failed to parse extraction JSON:', e);
-      }
-    }
-
-    // Fallback: if no [EXTRACT] block, look for bare JSON object with array values
-    if (!extraction) {
-      const jsonMatch = raw.match(/\{[^{}]*"[a-z_]+":\s*\[[\s\S]*?\]\s*\}/);
-      if (jsonMatch) {
-        try {
-          const parsed = JSON.parse(jsonMatch[0]);
-          // Validate it looks like an extraction (has string array values)
-          const isExtraction = Object.values(parsed).every(v =>
-            Array.isArray(v) && v.every(item => typeof item === 'string')
-          );
-          if (isExtraction && Object.keys(parsed).length > 0) {
-            extraction = parsed;
-            // Remove the JSON from chatText to avoid showing raw JSON to user
-            chatText = chatText.replace(jsonMatch[0], '').trim();
-            console.warn('Used fallback extraction (no [EXTRACT] delimiters):', extraction);
-          }
-        } catch (e) {
-          // Not valid JSON, ignore
-        }
       }
     }
 

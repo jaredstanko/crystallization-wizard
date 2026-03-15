@@ -125,10 +125,15 @@ async function handleUserMessage(text) {
     // Call AI
     const { chatText, extraction } = await ai.chat(recentMessages, systemPrompt);
 
-    // Process extraction
-    if (extraction) {
-      crystallizer.merge(extraction);
-      fsm.markVisitedFromExtraction(extraction);
+    // Process extraction — if main response had none, do a follow-up extraction call
+    let finalExtraction = extraction;
+    if (!finalExtraction) {
+      finalExtraction = await ai.extractFromResponse(text, chatText, modeConfig);
+    }
+
+    if (finalExtraction) {
+      crystallizer.merge(finalExtraction);
+      fsm.markVisitedFromExtraction(finalExtraction);
     }
 
     // Add AI response
