@@ -83,6 +83,28 @@ Brief summary: how many items extracted, which sections populated, what didn't f
       }
     }
 
+    // Fallback: if no [EXTRACT] block, look for bare JSON object with array values
+    if (!extraction) {
+      const jsonMatch = raw.match(/\{[^{}]*"[a-z_]+":\s*\[[\s\S]*?\]\s*\}/);
+      if (jsonMatch) {
+        try {
+          const parsed = JSON.parse(jsonMatch[0]);
+          // Validate it looks like an extraction (has string array values)
+          const isExtraction = Object.values(parsed).every(v =>
+            Array.isArray(v) && v.every(item => typeof item === 'string')
+          );
+          if (isExtraction && Object.keys(parsed).length > 0) {
+            extraction = parsed;
+            // Remove the JSON from chatText to avoid showing raw JSON to user
+            chatText = chatText.replace(jsonMatch[0], '').trim();
+            console.warn('Used fallback extraction (no [EXTRACT] delimiters):', extraction);
+          }
+        } catch (e) {
+          // Not valid JSON, ignore
+        }
+      }
+    }
+
     return { chatText, extraction };
   },
 
